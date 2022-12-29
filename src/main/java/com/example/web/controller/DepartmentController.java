@@ -1,8 +1,12 @@
 package com.example.web.controller;
 
 import com.example.web.controller.dto.DepartmentDto;
+import com.example.web.controller.dto.FacultyDto;
 import com.example.web.controller.dto.mapper.DepartmentDtoMapper;
+import com.example.web.model.Department;
+import com.example.web.model.Faculty;
 import com.example.web.service.DepartmentService;
+import com.example.web.service.FacultyService;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -23,11 +27,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class DepartmentController {
 
   DepartmentService service;
+  FacultyService facultyService;
 
   DepartmentDtoMapper dtoMapper;
 
   @GetMapping
   public List<DepartmentDto> getAll(){
+
     return dtoMapper.toDtoList(service.getAll());
   }
 
@@ -38,10 +44,17 @@ public class DepartmentController {
 
   @PostMapping
   public DepartmentDto create(@RequestBody DepartmentDto departmentDto){
+
+    Faculty faculty = facultyService.getByIdOrThrowException(departmentDto.getFacultyId());
+    Department department = service.create(dtoMapper.toEntity(departmentDto));
+    department.setFaculty(faculty);
     return dtoMapper.toDto
-        (service.create(
-        dtoMapper.toEntity(
-        departmentDto)));
+        (department
+//            service.create(
+//        dtoMapper.toEntity(
+//        departmentDto)
+//        )
+    );
   }
 
   @PutMapping("/{departmentId}")

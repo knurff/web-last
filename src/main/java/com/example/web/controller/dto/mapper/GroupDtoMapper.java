@@ -33,7 +33,7 @@ public class GroupDtoMapper {
   public Group toEntity(GroupDto dto){
     return Group.builder()
         .id(dto.getId())
-        .department(departmentDtoMapper.toEntity(dto.getDepartment()))
+//        .department(departmentDtoMapper.toEntity(dto.getDepartment()))
         .name(dto.getName())
         .course(dto.getCourse())
         .build();
