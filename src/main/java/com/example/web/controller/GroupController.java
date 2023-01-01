@@ -6,22 +6,17 @@ import com.example.web.model.Department;
 import com.example.web.model.Faculty;
 import com.example.web.model.Group;
 import com.example.web.service.DepartmentService;
+import com.example.web.service.FacultyService;
 import com.example.web.service.GroupService;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/groups")
+@RequestMapping("/group")
+@CrossOrigin(origins = "*")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
 public class GroupController {
@@ -30,6 +25,9 @@ public class GroupController {
   DepartmentService departmentService;
 
   GroupDtoMapper dtoMapper;
+
+  FacultyService facultyService;
+
 
   @GetMapping
   public List<GroupDto> getAll(){
@@ -43,15 +41,14 @@ public class GroupController {
 
   @PostMapping
   public GroupDto create(@RequestBody GroupDto groupDto){
-    Department department = departmentService.getByIdOrThrowException(groupDto.getDepartmentId());
-    Group group = service.create(dtoMapper.toEntity(groupDto));
-    group.setDepartment(department);
+//    Department department = departmentService.getByIdOrThrowException(groupDto.getDepartmentId());
+    Group group = service.create(dtoMapper.toEntity(groupDto), groupDto.getDepartmentId());
     return dtoMapper.toDto(group);
   }
 
   @PutMapping("/{groupId}")
   public GroupDto edit(@PathVariable Integer groupId, @RequestBody GroupDto groupDto){
-    return dtoMapper.toDto(service.edit(dtoMapper.toEntity(groupDto), groupId));
+    return dtoMapper.toDto(service.edit(dtoMapper.toEntity(groupDto), groupId, groupDto.getDepartmentId()));
   }
 
   @DeleteMapping("/{groupId}")

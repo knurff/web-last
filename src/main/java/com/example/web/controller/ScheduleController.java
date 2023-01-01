@@ -2,27 +2,32 @@ package com.example.web.controller;
 
 import com.example.web.controller.dto.ScheduleDto;
 import com.example.web.controller.dto.mapper.ScheduleDtoMapper;
+import com.example.web.model.Department;
+import com.example.web.model.Discipline;
+import com.example.web.model.Group;
+import com.example.web.model.Teacher;
+import com.example.web.service.DisciplineService;
+import com.example.web.service.GroupService;
 import com.example.web.service.ScheduleService;
 import java.util.List;
+
+import com.example.web.service.TeacherService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/schedules")
+@RequestMapping("/schedule")
+@CrossOrigin(origins = "*")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
 public class ScheduleController {
 
   ScheduleService service;
+  TeacherService teacherService;
+  DisciplineService disciplineService;
+  GroupService groupService;
 
   ScheduleDtoMapper dtoMapper;
 
@@ -38,12 +43,15 @@ public class ScheduleController {
 
   @PostMapping
   public ScheduleDto create(@RequestBody ScheduleDto scheduleDto){
-    return dtoMapper.toDto(service.create(dtoMapper.toEntity(scheduleDto)));
+
+    return dtoMapper.toDto(service.create(dtoMapper.toEntity(scheduleDto), scheduleDto.getTeacherId(),
+            scheduleDto.getDisciplineId(), scheduleDto.getGroupId()));
   }
 
   @PutMapping("/{scheduleId}")
   public ScheduleDto edit(@PathVariable Integer scheduleId, @RequestBody ScheduleDto scheduleDto){
-    return dtoMapper.toDto(service.edit(dtoMapper.toEntity(scheduleDto), scheduleId));
+    return dtoMapper.toDto(service.edit(dtoMapper.toEntity(scheduleDto), scheduleId, scheduleDto.getTeacherId(),
+            scheduleDto.getDisciplineId(), scheduleDto.getGroupId()));
   }
 
   @DeleteMapping("/{scheduleId}")

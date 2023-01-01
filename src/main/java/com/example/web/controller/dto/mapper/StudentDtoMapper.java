@@ -34,7 +34,7 @@ public class StudentDtoMapper {
   public Student toEntity(StudentDto dto){
     return Student.builder()
         .id(dto.getId())
-        .group(groupDtoMapper.toEntity(dto.getGroup()))
+        //.group(groupDtoMapper.toEntity(dto.getGroup()))
         .name(dto.getName())
         .email(dto.getEmail())
         .phone(dto.getPhone())

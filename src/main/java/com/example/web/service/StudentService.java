@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 public class StudentService {
 
   StudentRepository repository;
+  GroupService groupService;
 
   public List<Student> getAll() {
     return repository.findAll();
@@ -25,17 +26,21 @@ public class StudentService {
     return getOrElseThrow(studentId);
   }
 
-  public Student create(Student student) {
+  public Student create(Student student, Integer groupId)
+  {
+    student.setGroup(groupService.getByIdOrThrowException(groupId));
     return repository.save(student);
   }
 
-  public Student edit(Student student, Integer studentId) {
+  public Student edit(Student student, Integer studentId, Integer groupId) {
     Student studentFromDb = getOrElseThrow(studentId);
     studentFromDb.setName(student.getName());
-    studentFromDb.setGroup(student.getGroup());
+    studentFromDb.setGroup(groupService.getByIdOrThrowException(groupId));
+//    studentFromDb.setGroup(groupService.getByIdOrThrowException(student.getGroup().getId()));
     studentFromDb.setEmail(student.getEmail());
     studentFromDb.setPhone(student.getPhone());
-    return repository.save(student);
+//    return repository.save(student);
+    return repository.save(studentFromDb);
   }
 
   public void delete(Integer StudentId) {

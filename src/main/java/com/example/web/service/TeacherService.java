@@ -35,7 +35,7 @@ public class TeacherService {
     teacherFromDb.setSurname(teacher.getSurname());
     teacherFromDb.setEmail(teacher.getEmail());
     teacherFromDb.setPhone(teacher.getPhone());
-    return repository.save(teacher);
+    return repository.save(teacherFromDb);
   }
 
   public void delete(Integer teacherId) {

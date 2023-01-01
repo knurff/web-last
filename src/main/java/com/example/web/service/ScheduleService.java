@@ -16,6 +16,9 @@ import org.springframework.stereotype.Service;
 public class ScheduleService {
 
   ScheduleRepository repository;
+  TeacherService teacherService;
+  DisciplineService disciplineService;
+  GroupService groupService;
 
   public List<Schedule> getAll() {
     return repository.findAll();
@@ -25,19 +28,22 @@ public class ScheduleService {
     return getOrElseThrow(scheduleId);
   }
 
-  public Schedule create(Schedule Schedule) {
-    return repository.save(Schedule);
+  public Schedule create(Schedule schedule, Integer teacherId, Integer disciplineId, Integer groupId) {
+    schedule.setTeacher(teacherService.getByIdOrThrowException(teacherId));
+    schedule.setDiscipline(disciplineService.getByIdOrThrowException(disciplineId));
+    schedule.setGroup(groupService.getByIdOrThrowException(groupId));
+    return repository.save(schedule);
   }
 
-  public Schedule edit(Schedule schedule, Integer scheduleId) {
+  public Schedule edit(Schedule schedule, Integer scheduleId, Integer teacherId, Integer disciplineId, Integer groupId) {
     Schedule ScheduleFromDb = getOrElseThrow(scheduleId);
     ScheduleFromDb.setName(schedule.getName());
-    ScheduleFromDb.setTeacher(schedule.getTeacher());
-    ScheduleFromDb.setDiscipline(schedule.getDiscipline());
-    ScheduleFromDb.setGroup(schedule.getGroup());
+    ScheduleFromDb.setTeacher(teacherService.getByIdOrThrowException(teacherId));
+    ScheduleFromDb.setDiscipline(disciplineService.getByIdOrThrowException(disciplineId));
+    ScheduleFromDb.setGroup(groupService.getByIdOrThrowException(groupId));
     ScheduleFromDb.setTime(schedule.getTime());
     ScheduleFromDb.setClassroom(schedule.getClassroom());
-    return repository.save(schedule);
+    return repository.save(ScheduleFromDb);
   }
 
   public void delete(Integer scheduleId) {

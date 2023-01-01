@@ -4,6 +4,7 @@ import com.example.web.exception.DepartmentNotFoundException;
 import com.example.web.model.Department;
 import com.example.web.repository.DepartmentRepository;
 import java.util.List;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 public class DepartmentService {
 
   DepartmentRepository repository;
+  FacultyService facultyService;
 
   public List<Department> getAll() {
     return repository.findAll();
@@ -24,16 +26,17 @@ public class DepartmentService {
     return getOrElseThrow(departmentId);
   }
 
-  public Department create(Department department) {
+  public Department create(Department department, Integer facultyId) {
+    department.setFaculty(facultyService.getByIdOrThrowException(facultyId));
     return repository.save(department);
   }
 
-  public Department edit(Department department, Integer departmentId) {
+  public Department edit(Department department, Integer departmentId, Integer facultyId) {
     Department departmentFromDb = getOrElseThrow(departmentId);
-    departmentFromDb.setFaculty(department.getFaculty());
+    departmentFromDb.setFaculty(facultyService.getByIdOrThrowException(facultyId));
     departmentFromDb.setName(department.getName());
     departmentFromDb.setShortName(department.getShortName());
-    return repository.save(department);
+    return repository.save(departmentFromDb);
   }
 
   public void delete(Integer departmentId) {

@@ -32,7 +32,7 @@ public class FacultyService {
     Faculty facultyFromDb = getOrElseThrow(facultyId);
     facultyFromDb.setName(faculty.getName());
     facultyFromDb.setShortName(faculty.getShortName());
-    return repository.save(faculty);
+    return repository.save(facultyFromDb);
   }
 
   public void delete(Integer facultyId) {

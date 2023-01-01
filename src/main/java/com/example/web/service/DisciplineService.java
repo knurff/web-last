@@ -31,7 +31,7 @@ public class DisciplineService {
   public Discipline edit(Discipline discipline, Integer disciplineId) {
     Discipline disciplineFromDb = getOrElseThrow(disciplineId);
     disciplineFromDb.setName(discipline.getName());
-    return repository.save(discipline);
+    return repository.save(disciplineFromDb);
   }
 
   public void delete(Integer disciplineId) {

@@ -17,6 +17,8 @@ public class GroupService {
 
   GroupRepository repository;
 
+  DepartmentService departmentService;
+
   public List<Group> getAll() {
     return repository.findAll();
   }
@@ -25,16 +27,17 @@ public class GroupService {
     return getOrElseThrow(groupId);
   }
 
-  public Group create(Group group) {
+  public Group  create(Group group, Integer departmentId) {
+    group.setDepartment(departmentService.getByIdOrThrowException(departmentId));
     return repository.save(group);
   }
 
-  public Group edit(Group group, Integer groupId) {
+  public Group edit(Group group, Integer groupId, Integer departmentId) {
     Group groupFromDb = getOrElseThrow(groupId);
-    groupFromDb.setDepartment(group.getDepartment());
+    groupFromDb.setDepartment(departmentService.getByIdOrThrowException(departmentId));
     groupFromDb.setName(group.getName());
     groupFromDb.setCourse(group.getCourse());
-    return repository.save(group);
+    return repository.save(groupFromDb);
   }
 
   public void delete(Integer groupId) {

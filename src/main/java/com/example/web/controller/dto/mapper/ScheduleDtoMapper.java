@@ -40,9 +40,9 @@ public class ScheduleDtoMapper {
     return Schedule.builder()
         .id(dto.getId())
         .name(dto.getName())
-        .teacher(teacherDtoMapper.toEntity(dto.getTeacher()))
-        .discipline(disciplineDtoMapper.toEntity(dto.getDiscipline()))
-        .group(groupDtoMapper.toEntity(dto.getGroup()))
+//        .teacher(teacherDtoMapper.toEntity(dto.getTeacher()))
+//        .discipline(disciplineDtoMapper.toEntity(dto.getDiscipline()))
+//        .group(groupDtoMapper.toEntity(dto.getGroup()))
         .classroom(dto.getClassroom())
         .build();
   }
