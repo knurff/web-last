@@ -27,7 +27,7 @@ import org.hibernate.Hibernate;
 public class Discipline {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   Integer id;
 
   String name;

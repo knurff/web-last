@@ -1,10 +1,14 @@
 package com.example.web.service;
 
 
+import com.example.web.exception.GroupNotFoundException;
 import com.example.web.exception.StudentNotFoundException;
+import com.example.web.model.Group;
 import com.example.web.model.Student;
+import com.example.web.repository.GroupRepository;
 import com.example.web.repository.StudentRepository;
 import java.util.List;
+import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -33,14 +37,19 @@ public class StudentService {
   }
 
   public Student edit(Student student, Integer studentId, Integer groupId) {
-    Student studentFromDb = getOrElseThrow(studentId);
-    studentFromDb.setName(student.getName());
-    studentFromDb.setGroup(groupService.getByIdOrThrowException(groupId));
-//    studentFromDb.setGroup(groupService.getByIdOrThrowException(student.getGroup().getId()));
-    studentFromDb.setEmail(student.getEmail());
-    studentFromDb.setPhone(student.getPhone());
-//    return repository.save(student);
-    return repository.save(studentFromDb);
+    return Optional.of(getOrElseThrow(studentId))
+        .map(newStudent -> {
+              newStudent.setName(student.getName());
+              newStudent.setGroup(groupService.getByIdOrThrowException(groupId));
+              newStudent.setEmail(student.getEmail());
+              newStudent.setPhone(student.getPhone());
+              return repository.save(newStudent);
+            }
+          )
+        .orElseGet(() -> {
+          student.setId(studentId);
+          return repository.save(student);
+        });
   }
 
   public void delete(Integer StudentId) {

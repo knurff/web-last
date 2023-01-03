@@ -1,5 +1,6 @@
 package com.example.web.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,7 +28,7 @@ import org.hibernate.Hibernate;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Student {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   Integer id;
 
   @ManyToOne

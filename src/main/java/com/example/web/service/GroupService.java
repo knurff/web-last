@@ -3,7 +3,9 @@ package com.example.web.service;
 
 import com.example.web.exception.GroupNotFoundException;
 import com.example.web.model.Group;
+import com.example.web.model.Student;
 import com.example.web.repository.GroupRepository;
+import com.example.web.repository.StudentRepository;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 public class GroupService {
 
   GroupRepository repository;
+  StudentRepository studentRepository;
 
   DepartmentService departmentService;
 
@@ -41,6 +44,11 @@ public class GroupService {
   }
 
   public void delete(Integer groupId) {
+    studentRepository.findAll()
+        .stream()
+        .filter(student -> student.getGroup().getId().equals(groupId))
+        .peek(student -> student.setGroup(null))
+        .forEach(studentRepository::save);
     repository.deleteById(groupId);
   }
 

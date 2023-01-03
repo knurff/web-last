@@ -1,12 +1,17 @@
 package com.example.web.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,16 +34,19 @@ import org.hibernate.Hibernate;
 public class Department {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   Integer id;
 
-  @ManyToOne
+  @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "faculty_id")
   Faculty faculty;
 
   String name;
 
   String shortName;
+
+  @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
+  Set<Group> groups = new HashSet<>();
 
   @Override
   public boolean equals(Object o) {
