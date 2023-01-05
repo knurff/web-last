@@ -35,15 +35,15 @@ public class Schedule {
 
   String name;
 
-  @ManyToOne(cascade = CascadeType.ALL)
+  @ManyToOne
   @JoinColumn(name = "teacher_id")
   Teacher teacher;
 
-  @ManyToOne(cascade = CascadeType.ALL)
+  @ManyToOne
   @JoinColumn(name = "discipline_id")
   Discipline discipline;
 
-  @ManyToOne(cascade = CascadeType.ALL)
+  @ManyToOne
   @JoinColumn(name = "group_id")
   Group group;
 

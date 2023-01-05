@@ -1,10 +1,11 @@
 package com.example.web.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,6 +32,10 @@ public class Discipline {
   Integer id;
 
   String name;
+
+  @ToString.Exclude
+  @OneToMany(mappedBy = "discipline", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+  Set<Schedule> schedules = new HashSet<>();
 
   @Override
   public boolean equals(Object o) {

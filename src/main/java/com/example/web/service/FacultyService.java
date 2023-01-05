@@ -1,9 +1,13 @@
 package com.example.web.service;
 
 import com.example.web.exception.FacultyNotFoundException;
+import com.example.web.model.Department;
 import com.example.web.model.Faculty;
+import com.example.web.repository.DepartmentRepository;
 import com.example.web.repository.FacultyRepository;
 import java.util.List;
+import java.util.Set;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -15,6 +19,7 @@ import org.springframework.stereotype.Service;
 public class FacultyService {
 
   FacultyRepository repository;
+  DepartmentRepository departmentRepository;
 
   public List<Faculty> getAll() {
     return repository.findAll();
@@ -36,6 +41,10 @@ public class FacultyService {
   }
 
   public void delete(Integer facultyId) {
+    departmentRepository.findAllByFacultyId(facultyId)
+            .stream()
+            .peek(department -> department.setFaculty(null))
+            .forEach(departmentRepository::save);
     repository.deleteById(facultyId);
   }
 

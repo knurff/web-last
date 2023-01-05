@@ -44,9 +44,8 @@ public class GroupService {
   }
 
   public void delete(Integer groupId) {
-    studentRepository.findAll()
+    studentRepository.findAllByGroupId(groupId)
         .stream()
-        .filter(student -> student.getGroup().getId().equals(groupId))
         .peek(student -> student.setGroup(null))
         .forEach(studentRepository::save);
     repository.deleteById(groupId);

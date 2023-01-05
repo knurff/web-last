@@ -41,8 +41,9 @@ public class Group {
   @JoinColumn(name = "department_id")
   Department department;
 
-  @OneToMany(mappedBy = "group")
-  Set<Student> students = new HashSet<>();
+  @ToString.Exclude
+  @OneToMany(mappedBy = "group", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+  Set<Schedule> schedules = new HashSet<>();
 
   String name;
 

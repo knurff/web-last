@@ -45,9 +45,6 @@ public class Department {
 
   String shortName;
 
-  @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
-  Set<Group> groups = new HashSet<>();
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
