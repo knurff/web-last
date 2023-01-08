@@ -16,6 +16,7 @@ public class GroupDtoMapper {
   DepartmentDtoMapper departmentDtoMapper;
 
   public GroupDto toDto(Group entity){
+    if (entity== null) return null;
     return GroupDto.builder()
         .id(entity.getId())
         .department(departmentDtoMapper.toDto(entity.getDepartment()))

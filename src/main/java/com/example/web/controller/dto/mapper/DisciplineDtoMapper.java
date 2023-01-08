@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 public class DisciplineDtoMapper {
 
   public DisciplineDto toDto(Discipline entity){
+    if (entity== null) return null;
     return DisciplineDto.builder()
         .id(entity.getId())
         .name(entity.getName())

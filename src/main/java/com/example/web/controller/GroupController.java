@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/group")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:8080")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
 public class GroupController {

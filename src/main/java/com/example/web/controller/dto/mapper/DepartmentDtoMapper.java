@@ -17,6 +17,8 @@ public class DepartmentDtoMapper {
   FacultyDtoMapper facultyDtoMapper;
 
   public DepartmentDto toDto(Department entity){
+    if(entity== null) return null;
+
     return DepartmentDto.builder()
         .id(entity.getId())
         .faculty(facultyDtoMapper.toDto(entity.getFaculty()))
