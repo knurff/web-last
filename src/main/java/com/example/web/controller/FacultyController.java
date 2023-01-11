@@ -10,7 +10,6 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping("/faculty")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
@@ -20,15 +19,18 @@ public class FacultyController {
 
   FacultyDtoMapper dtoMapper;
 
+
   @GetMapping
   public List<FacultyDto> getAll(){
     return dtoMapper.toDtoList(service.getAll());
   }
 
+
   @GetMapping("/{facultyId}")
   public FacultyDto getOne(@PathVariable Integer facultyId){
     return dtoMapper.toDto(service.getByIdOrThrowException(facultyId));
   }
+
 
   @PostMapping
   public FacultyDto create(@RequestBody FacultyDto facultyDto){
